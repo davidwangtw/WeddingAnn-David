@@ -601,7 +601,9 @@
         body:JSON.stringify({image:imageBase64,gender:selectedGender})
       });
       const text=await res.text();
-      const r=JSON.parse(text.replace(/```json|```/g,'').trim());
+      console.log('Worker回傳:', text);
+      const clean=text.replace(/```json|```/g,'').trim();
+      const r=JSON.parse(clean);
       const pc=r.pass?'pass':'fail';
       const tags=(r.detected||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
       const sugg=r.suggestion?`<p class="result-suggestion">建議：${r.suggestion}</p>`:'';
