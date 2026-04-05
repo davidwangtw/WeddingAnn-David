@@ -238,6 +238,38 @@
 
   .foot-names { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 6vw, 2.8rem); color: var(--cream); margin-bottom: 0.75rem; }
 
+  #contact { background: var(--cream); padding: 5rem 2rem; }
+  .contact-grid {
+    display: flex; align-items: center; gap: 2rem;
+  }
+  .contact-side { flex: 1; text-align: center; }
+  .contact-divider { width: 0.5px; height: 80px; background: rgba(139,32,32,0.2); flex-shrink: 0; }
+  .contact-side-label { font-size: 10px; letter-spacing: 0.25em; color: var(--brick); text-transform: uppercase; margin-bottom: 1rem; }
+  .contact-btn {
+    width: 100%; padding: 1rem 1.25rem;
+    border: 0.5px solid rgba(139,32,32,0.25); background: var(--warm-white);
+    color: var(--deep); font-family: inherit; font-size: 14px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  }
+  .contact-btn:hover { border-color: var(--brick); background: rgba(139,32,32,0.03); }
+  .contact-btn-icon { font-size: 16px; }
+  .contact-btn-arrow { font-size: 12px; color: var(--brick); opacity: 0.6; }
+
+  .contact-modal-photo {
+    width: 100%; max-height: 320px; object-fit: cover; object-position: top;
+    display: block; margin-bottom: 1.25rem;
+  }
+  .contact-modal-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; color: var(--deep);
+    text-align: center; margin-bottom: 0.3rem;
+  }
+  .contact-modal-role {
+    font-size: 11px; letter-spacing: 0.2em; color: var(--brick);
+    text-align: center;
+  }
+
   .modal-backdrop {
     display: none; position: fixed; inset: 0; z-index: 200;
     background: rgba(58,26,26,0.8); align-items: center; justify-content: center; padding: 1rem;
@@ -362,21 +394,7 @@
   <div class="section-inner">
     <p class="section-label">Wedding Photos</p>
     <h2 class="section-title">婚紗照</h2>
-    <div class="photos-grid">
-      <div class="photo-slot">
-        <img src="photo2.jpg" alt="David & Ann 婚紗照">
-      </div>
-      <div class="photo-slot">
-        <img src="photo3.jpg" alt="David & Ann 婚紗照">
-      </div>
-      <div class="photo-slot">
-        <img src="photo4.jpg" alt="David & Ann 婚紗照">
-      </div>
-      <div class="photo-slot">
-        <img src="photo1.jpg" alt="David & Ann 婚紗照">
-      </div>
-    </div>
-    <p style="margin-top:2rem;font-size:13px;letter-spacing:0.2em;color:var(--muted);text-align:center">敬請期待現場展示</p>
+    <p style="font-size:13px;letter-spacing:0.2em;color:var(--muted);text-align:center;padding:3rem 0">敬請期待現場展示</p>
   </div>
 </section>
 
@@ -428,6 +446,33 @@
   </div>
 </section>
 
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">聯絡人</h2>
+    <p style="font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:2rem">如有任何問題，歡迎聯絡雙方代表。</p>
+    <div class="contact-grid">
+      <div class="contact-side">
+        <p class="contact-side-label">新郎方</p>
+        <button class="contact-btn" onclick="openContact('male')">
+          <span class="contact-btn-icon">🤵</span>
+          <span>阿浦</span>
+          <span class="contact-btn-arrow">→</span>
+        </button>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-side">
+        <p class="contact-side-label">新娘方</p>
+        <button class="contact-btn" onclick="openContact('female')">
+          <span class="contact-btn-icon">👰</span>
+          <span>YC</span>
+          <span class="contact-btn-arrow">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="dresscode">
   <div class="section-inner">
     <p class="section-label">Dress Code</p>
@@ -456,6 +501,17 @@
     <p style="margin-top:0.5rem;opacity:0.6">期待與您共度這美好的一天</p>
   </div>
 </footer>
+
+<div class="modal-backdrop" id="contact-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="padding:0;overflow:hidden;max-width:360px">
+    <button class="modal-close" style="top:0.75rem;right:0.75rem;background:rgba(245,240,232,0.9);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:10" onclick="document.getElementById('contact-modal').classList.remove('open')">×</button>
+    <img id="contact-photo" class="contact-modal-photo" src="" alt="">
+    <div style="padding:1.25rem 1.5rem 1.75rem">
+      <p class="contact-modal-name" id="contact-name"></p>
+      <p class="contact-modal-role" id="contact-role"></p>
+    </div>
+  </div>
+</div>
 
 <div class="modal-backdrop" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
@@ -488,6 +544,18 @@
     document.getElementById('cd-secs').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
   }
   updateCountdown(); setInterval(updateCountdown,1000);
+
+  function openContact(side) {
+    const data = {
+      male:   { name:'阿浦', role:'新郎方聯絡人', photo:'contact-male.jpg' },
+      female: { name:'YC',   role:'新娘方聯絡人', photo:'contact-female.jpg' }
+    };
+    const d = data[side];
+    document.getElementById('contact-photo').src = d.photo;
+    document.getElementById('contact-name').textContent = d.name;
+    document.getElementById('contact-role').textContent = d.role;
+    document.getElementById('contact-modal').classList.add('open');
+  }
 
   // Slideshow
   let currentSlide = 0;
