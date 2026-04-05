@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David & Ann 的婚禮 ｜ 2026.05.16</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+TC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --warm: #F0E8DC;
+    --gold: #B8966A;
+    --gold-light: #D4B48A;
+    --deep: #3A2E22;
+    --muted: #7A6A58;
+    --rose: #C9997A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--deep);
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: center; gap: 2rem;
+    padding: 1.1rem 2rem;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 0.5px solid rgba(184,150,106,0.2);
+    font-size: 12px; letter-spacing: 0.15em; color: var(--muted);
+  }
+  nav a { text-decoration: none; color: inherit; transition: color 0.2s; }
+  nav a:hover { color: var(--gold); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 6rem 2rem 4rem;
+    position: relative; text-align: center;
+    background: var(--cream);
+  }
+  .hero-deco {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none; overflow: hidden;
+  }
+  .hero-deco svg { width: 100%; height: 100%; opacity: 0.07; }
+
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 0.3em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 2rem;
+    animation: fadeUp 1s ease both;
+  }
+  .hero-names {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 10vw, 6.5rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--deep);
+    animation: fadeUp 1s 0.15s ease both;
+  }
+  .hero-names em { font-style: italic; color: var(--gold); }
+  .hero-amp {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--gold-light); font-weight: 300; font-style: italic;
+    display: block; margin: 0.3rem 0;
+  }
+  .hero-date {
+    margin-top: 2rem;
+    font-size: 13px; letter-spacing: 0.25em; color: var(--muted);
+    animation: fadeUp 1s 0.3s ease both;
+  }
+  .hero-divider {
+    width: 60px; height: 0.5px; background: var(--gold-light);
+    margin: 1.5rem auto;
+    animation: fadeUp 1s 0.4s ease both;
+  }
+  .hero-venue {
+    font-size: 13px; color: var(--muted); letter-spacing: 0.1em;
+    animation: fadeUp 1s 0.45s ease both;
+  }
+
+  /* COUNTDOWN */
+  #countdown {
+    padding: 4rem 2rem;
+    background: var(--deep);
+    text-align: center;
+  }
+  .count-label {
+    font-size: 11px; letter-spacing: 0.3em; color: var(--gold-light);
+    text-transform: uppercase; margin-bottom: 2rem;
+  }
+  .count-grid {
+    display: flex; justify-content: center; gap: clamp(1rem, 4vw, 3rem);
+    flex-wrap: wrap;
+  }
+  .count-item { text-align: center; }
+  .count-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 300; color: var(--cream);
+    line-height: 1; display: block;
+    min-width: 2ch; text-align: center;
+  }
+  .count-unit {
+    font-size: 11px; letter-spacing: 0.2em; color: var(--gold-light);
+    margin-top: 0.5rem; display: block;
+  }
+  .count-sep {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; color: var(--gold); align-self: flex-start; padding-top: 0.25rem;
+  }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; }
+  .section-inner { max-width: 680px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; letter-spacing: 0.3em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 300; color: var(--deep);
+    margin-bottom: 1.5rem; line-height: 1.2;
+  }
+  .section-body { font-size: 15px; line-height: 2; color: var(--muted); }
+
+  /* STORY */
+  #story { background: var(--warm); }
+  .story-text { font-size: 16px; line-height: 2.1; color: var(--deep); }
+  .story-highlight {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-style: italic; color: var(--gold);
+    display: block; margin: 1.5rem 0;
+    border-left: 2px solid var(--gold-light); padding-left: 1.2rem;
+  }
+
+  /* PHOTOS */
+  #photos { background: var(--cream); }
+  .photo-cta {
+    display: inline-block; margin-top: 1.5rem;
+    padding: 0.85rem 2rem;
+    border: 0.5px solid var(--gold);
+    color: var(--gold); font-size: 13px; letter-spacing: 0.15em;
+    text-decoration: none; transition: all 0.25s;
+  }
+  .photo-cta:hover { background: var(--gold); color: var(--cream); }
+
+  /* INFO */
+  #info { background: var(--warm); }
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  @media (max-width: 520px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-card {
+    background: var(--cream); padding: 1.5rem;
+    border: 0.5px solid rgba(184,150,106,0.3);
+  }
+  .info-card-title {
+    font-size: 11px; letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .info-card-body { font-size: 14px; line-height: 1.9; color: var(--muted); }
+  .info-card-body strong { color: var(--deep); font-weight: 400; }
+  .map-link {
+    display: inline-block; margin-top: 0.75rem;
+    font-size: 12px; color: var(--gold); letter-spacing: 0.1em;
+    text-decoration: none; border-bottom: 0.5px solid var(--gold-light);
+    padding-bottom: 1px; transition: color 0.2s;
+  }
+  .map-link:hover { color: var(--rose); }
+
+  /* DRESSCODE */
+  #dresscode { background: var(--cream); }
+  .dc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+  @media (max-width: 520px) { .dc-grid { grid-template-columns: 1fr; } }
+  .dc-card {
+    padding: 1.75rem 1.5rem;
+    border: 0.5px solid rgba(184,150,106,0.3);
+    background: var(--warm);
+  }
+  .dc-card-title { font-size: 13px; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 0.75rem; }
+  .dc-card-body { font-size: 14px; line-height: 1.9; color: var(--muted); }
+  .dc-note { font-size: 12px; color: var(--rose); margin-top: 0.5rem; }
+  .dc-checker-btn {
+    display: inline-block; margin-top: 2rem;
+    padding: 0.85rem 2rem;
+    border: 0.5px solid var(--gold); background: transparent;
+    color: var(--gold); font-size: 13px; letter-spacing: 0.15em;
+    cursor: pointer; transition: all 0.25s; font-family: inherit;
+  }
+  .dc-checker-btn:hover { background: var(--gold); color: var(--cream); }
+
+  /* AI CHECKER MODAL */
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(58,46,34,0.7); align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--cream); max-width: 480px; width: 100%;
+    padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; font-size: 1.5rem;
+    color: var(--muted); cursor: pointer; line-height: 1;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; color: var(--deep);
+    margin-bottom: 0.5rem;
+  }
+  .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.7; }
+  .gender-toggle { display: flex; gap: 8px; margin-bottom: 1rem; }
+  .gender-btn {
+    flex: 1; padding: 0.6rem;
+    border: 0.5px solid rgba(184,150,106,0.4); background: transparent;
+    color: var(--muted); font-size: 13px; letter-spacing: 0.1em;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+  }
+  .gender-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(184,150,106,0.06); }
+  .dc-hint {
+    background: rgba(184,150,106,0.08); border-left: 2px solid var(--gold-light);
+    padding: 0.75rem 1rem; font-size: 13px; color: var(--muted);
+    margin-bottom: 1rem; line-height: 1.7;
+  }
+  .upload-zone {
+    border: 1px dashed rgba(184,150,106,0.4); padding: 2rem 1rem;
+    text-align: center; cursor: pointer; transition: background 0.2s;
+    display: block;
+  }
+  .upload-zone:hover { background: rgba(184,150,106,0.05); }
+  .upload-zone input { display: none; }
+  .upload-zone p { font-size: 13px; color: var(--muted); margin: 0; }
+  .upload-zone p.sub { font-size: 11px; color: var(--gold-light); margin-top: 4px; }
+  .preview-img { width: 100%; max-height: 240px; object-fit: cover; margin: 0.75rem 0; display: none; }
+  .check-btn {
+    width: 100%; padding: 0.85rem;
+    background: var(--deep); border: none;
+    color: var(--cream); font-size: 13px; letter-spacing: 0.15em;
+    cursor: pointer; transition: background 0.2s; font-family: inherit;
+    margin-top: 0.5rem;
+  }
+  .check-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .check-btn:not(:disabled):hover { background: var(--gold); }
+  .result-box { margin-top: 1rem; padding: 1rem; border: 0.5px solid rgba(184,150,106,0.3); }
+  .result-pass { border-color: #5a8f5a; background: rgba(90,143,90,0.06); }
+  .result-fail { border-color: #c97a7a; background: rgba(201,122,122,0.06); }
+  .result-verdict { font-size: 15px; font-weight: 400; margin-bottom: 0.5rem; }
+  .result-verdict.pass { color: #3d6b3d; }
+  .result-verdict.fail { color: #8f3d3d; }
+  .result-reason { font-size: 13px; color: var(--muted); line-height: 1.8; }
+  .result-suggestion { font-size: 13px; color: var(--rose); margin-top: 0.5rem; line-height: 1.7; }
+  .result-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+  .result-tag { font-size: 11px; padding: 3px 10px; border: 0.5px solid rgba(184,150,106,0.4); color: var(--muted); }
+  .loader-row { display: flex; gap: 6px; align-items: center; padding: 1rem 0; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); animation: bounce 1s infinite; }
+  .dot:nth-child(2) { animation-delay: 0.15s; }
+  .dot:nth-child(3) { animation-delay: 0.3s; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 3rem 2rem;
+    background: var(--deep); color: var(--gold-light);
+    font-size: 12px; letter-spacing: 0.15em;
+  }
+  footer .foot-names {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; font-style: italic;
+    color: var(--cream); margin-bottom: 0.5rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%,60%,100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#story">我們的故事</a>
+  <a href="#photos">婚紗照</a>
+  <a href="#info">活動資訊</a>
+  <a href="#dresscode">穿搭指南</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-deco">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <circle cx="100" cy="100" r="200" fill="none" stroke="#B8966A" stroke-width="0.5"/>
+      <circle cx="1100" cy="700" r="300" fill="none" stroke="#B8966A" stroke-width="0.5"/>
+      <circle cx="600" cy="400" r="400" fill="none" stroke="#B8966A" stroke-width="0.3"/>
+      <line x1="0" y1="400" x2="1200" y2="400" stroke="#B8966A" stroke-width="0.3"/>
+    </svg>
+  </div>
+  <p class="hero-eyebrow">We are getting married</p>
+  <h1 class="hero-names">
+    <em>David</em>
+    <span class="hero-amp">&</span>
+    <em>Ann</em>
+  </h1>
+  <div class="hero-divider"></div>
+  <p class="hero-date">2 0 2 6 · 0 5 · 1 6</p>
+  <p class="hero-venue" style="margin-top:0.5rem">大倉久和大飯店・台北</p>
+</section>
+
+<!-- COUNTDOWN -->
+<div id="countdown">
+  <p class="count-label">距離我們的婚禮</p>
+  <div class="count-grid">
+    <div class="count-item">
+      <span class="count-num" id="cd-days">--</span>
+      <span class="count-unit">天</span>
+    </div>
+    <div class="count-sep">·</div>
+    <div class="count-item">
+      <span class="count-num" id="cd-hours">--</span>
+      <span class="count-unit">小時</span>
+    </div>
+    <div class="count-sep">·</div>
+    <div class="count-item">
+      <span class="count-num" id="cd-mins">--</span>
+      <span class="count-unit">分鐘</span>
+    </div>
+    <div class="count-sep">·</div>
+    <div class="count-item">
+      <span class="count-num" id="cd-secs">--</span>
+      <span class="count-unit">秒</span>
+    </div>
+  </div>
+</div>
+
+<!-- STORY -->
+<section id="story">
+  <div class="section-inner">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">我們的故事</h2>
+    <div class="story-text">
+      <p>一切都從清華大學開始。</p>
+      <span class="story-highlight">「在人群中認出你，是我做過最自然的事。」</span>
+      <p>那一年，David 和 Ann 在清大校園相遇，青春的記憶、圖書館的燈光、宿舍樓下的夜風，都成了兩人故事的底色。從同學到朋友，從朋友到彼此最重要的人，這段緣份走過了時間的考驗，也走到了今天。</p>
+      <p style="margin-top:1rem">2026年5月16日，我們選擇在最親愛的家人與朋友面前，許下一生的承諾。謝謝你們一路見證我們的成長，也謝謝你們願意來陪我們走進這最美的一天。</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<section id="photos">
+  <div class="section-inner">
+    <p class="section-label">Wedding Photos</p>
+    <h2 class="section-title">婚紗照</h2>
+    <p class="section-body">記錄了最美的瞬間，每一張都是屬於我們的故事。</p>
+    <a class="photo-cta" href="https://drive.google.com/drive/folders/1A3Ow0cWQhIx7JzP9qT5btdTF70zDDmKe?usp=drive_link" target="_blank">
+      瀏覽完整婚紗相冊 →
+    </a>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info">
+  <div class="section-inner">
+    <p class="section-label">Event Details</p>
+    <h2 class="section-title">活動資訊</h2>
+    <div class="info-grid">
+      <div class="info-card">
+        <p class="info-card-title">時間</p>
+        <div class="info-card-body">
+          <strong>2026年5月16日（六）</strong><br>
+          17:30　賓客入場<br>
+          18:00　正式入場<br>
+          18:30　正式開席
+        </div>
+      </div>
+      <div class="info-card">
+        <p class="info-card-title">地點</p>
+        <div class="info-card-body">
+          <strong>大倉久和大飯店・久和全廳</strong><br>
+          台北市中山區<br>
+          南京東路一段 9 號<br>
+          <a class="map-link" href="https://maps.google.com/?q=大倉久和大飯店+台北" target="_blank">在 Google Maps 中開啟 →</a>
+        </div>
+      </div>
+      <div class="info-card">
+        <p class="info-card-title">停車</p>
+        <div class="info-card-body">
+          <strong>飯店停車場</strong><br>
+          可直接停放飯店地下停車場，請依現場指示停車。
+        </div>
+      </div>
+      <div class="info-card">
+        <p class="info-card-title">大眾運輸</p>
+        <div class="info-card-body">
+          <strong>捷運南京復興站</strong><br>
+          1號出口步行約5分鐘<br><br>
+          <strong>捷運中山站</strong><br>
+          步行約10分鐘
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DRESSCODE -->
+<section id="dresscode">
+  <div class="section-inner">
+    <p class="section-label">Dress Code</p>
+    <h2 class="section-title">穿搭指南</h2>
+    <p class="section-body">希望賓客能與我們共同打造優雅的婚宴氛圍。</p>
+    <div class="dc-grid">
+      <div class="dc-card">
+        <p class="dc-card-title">男性 Gentlemen</p>
+        <div class="dc-card-body">
+          西裝、套裝<br>
+          衫搭配領帶或領結<br>
+          深色系為佳
+        </div>
+      </div>
+      <div class="dc-card">
+        <p class="dc-card-title">女性 Ladies</p>
+        <div class="dc-card-body">
+          小禮服、洋裝<br>
+          優雅正式為主
+          <p class="dc-note">＊請避免穿著紅色或白色</p>
+        </div>
+      </div>
+    </div>
+    <button class="dc-checker-btn" onclick="document.getElementById('modal').classList.add('open')">
+      AI 穿搭合適度檢查 →
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-names">David & Ann</div>
+  <p>2026 · 05 · 16 · 大倉久和大飯店</p>
+  <p style="margin-top:0.5rem;opacity:0.5">期待與您共度這美好的一天</p>
+</footer>
+
+<!-- AI CHECKER MODAL -->
+<div class="modal-backdrop" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">×</button>
+    <h3 class="modal-title">穿搭 AI 審核</h3>
+    <p class="modal-sub">上傳您的穿搭照片，AI 將協助確認是否符合婚宴 Dress Code。</p>
+
+    <div class="gender-toggle">
+      <button class="gender-btn active" id="btn-male" onclick="selectGender('male')">男性賓客</button>
+      <button class="gender-btn" id="btn-female" onclick="selectGender('female')">女性賓客</button>
+    </div>
+
+    <div class="dc-hint" id="dc-hint">
+      男性著裝要求：正裝（西裝、襯衫領帶等）
+    </div>
+
+    <label class="upload-zone" for="file-input">
+      <p>點擊上傳穿搭照片</p>
+      <p class="sub">支援 JPG、PNG</p>
+      <input type="file" id="file-input" accept="image/*" onchange="handleFile(event)">
+    </label>
+
+    <img id="preview" class="preview-img" alt="穿搭預覽">
+    <button class="check-btn" id="check-btn" disabled onclick="analyze()">上傳照片後開始審核</button>
+    <div id="result-area"></div>
+  </div>
+</div>
+
+<script>
+  // COUNTDOWN
+  function updateCountdown() {
+    const target = new Date('2026-05-16T17:30:00+08:00');
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-mins').textContent = '0';
+      document.getElementById('cd-secs').textContent = '0';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // DRESSCODE CHECKER
+  let selectedGender = 'male';
+  let imageBase64 = null;
+  const hints = {
+    male: '男性著裝要求：正裝（西裝、襯衫領帶等）',
+    female: '女性著裝要求：小禮服，請避免紅色或白色'
+  };
+
+  function selectGender(g) {
+    selectedGender = g;
+    document.getElementById('btn-male').classList.toggle('active', g==='male');
+    document.getElementById('btn-female').classList.toggle('active', g==='female');
+    document.getElementById('dc-hint').textContent = hints[g];
+    document.getElementById('result-area').innerHTML = '';
+  }
+
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      imageBase64 = ev.target.result.split(',')[1];
+      const preview = document.getElementById('preview');
+      preview.src = ev.target.result;
+      preview.style.display = 'block';
+      const btn = document.getElementById('check-btn');
+      btn.disabled = false;
+      btn.textContent = '開始 AI 審核';
+      document.getElementById('result-area').innerHTML = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function analyze() {
+    if (!imageBase64) return;
+    const btn = document.getElementById('check-btn');
+    btn.disabled = true;
+    btn.textContent = '審核中...';
+    const resultArea = document.getElementById('result-area');
+    resultArea.innerHTML = '<div class="loader-row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="font-size:13px;color:#7A6A58;margin-left:4px">AI 正在分析穿搭...</span></div>';
+
+    const genderRule = selectedGender === 'male'
+      ? '男性賓客，要求穿著正裝（西裝、襯衫領帶等）。'
+      : '女性賓客，要求穿著小禮服，且不可穿紅色或白色。';
+
+    const prompt = `你是婚禮穿搭審核員。請根據圖片判斷這位${genderRule}
+
+請用繁體中文嚴格按以下JSON格式回覆，不要輸出其他內容：
+{"pass":true或false,"verdict":"一句話判斷結果（15字以內）","reason":"具體說明（50字以內）","suggestion":"如不合格給建議，合格則null","detected":["穿著特徵1","穿著特徵2"]}`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 500,
+          messages: [{
+            role: 'user',
+            content: [
+              { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: imageBase64 } },
+              { type: 'text', text: prompt }
+            ]
+          }]
+        })
+      });
+      const data = await res.json();
+      const text = data.content.map(i => i.text||'').join('');
+      const r = JSON.parse(text.replace(/```json|```/g,'').trim());
+
+      const pc = r.pass ? 'pass' : 'fail';
+      const icon = r.pass ? '✓ ' : '✕ ';
+      const tags = (r.detected||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
+      const sugg = r.suggestion ? `<p class="result-suggestion">建議：${r.suggestion}</p>` : '';
+
+      resultArea.innerHTML = `
+        <div class="result-box result-${pc}">
+          <p class="result-verdict ${pc}">${icon}${r.verdict}</p>
+          <p class="result-reason">${r.reason}</p>
+          ${sugg}
+          <div class="result-tags">${tags}</div>
+        </div>`;
+    } catch(err) {
+      resultArea.innerHTML = '<div class="result-box"><p class="result-reason" style="color:#c97a7a">審核失敗，請重試。</p></div>';
+    }
+    btn.disabled = false;
+    btn.textContent = '重新審核';
+  }
+</script>
+</body>
+</html>
