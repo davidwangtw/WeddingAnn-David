@@ -601,9 +601,13 @@
         body:JSON.stringify({image:imageBase64,gender:selectedGender})
       });
       const text=await res.text();
-      console.log('Worker回傳:', text);
-      const clean=text.replace(/```json|```/g,'').trim();
-      const r=JSON.parse(clean);
+      let r;
+      try {
+        r=JSON.parse(text.replace(/```json|```/g,'').trim());
+      } catch(e) {
+        const match=text.match(/\{[\s\S]*\}/);
+        r=match?JSON.parse(match[0]):{pass:false,verdict:'解析失敗',reason:'請重試',suggestion:null,detected:[]};
+      }
       const pc=r.pass?'pass':'fail';
       const tags=(r.detected||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
       const sugg=r.suggestion?`<p class="result-suggestion">建議：${r.suggestion}</p>`:'';
