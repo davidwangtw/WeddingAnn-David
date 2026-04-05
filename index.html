@@ -595,18 +595,13 @@
     const btn=document.getElementById('check-btn'); btn.disabled=true; btn.textContent='審核中...';
     const ra=document.getElementById('result-area');
     ra.innerHTML='<div class="loader-row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="font-size:12px;color:#7A5A5A;margin-left:6px">AI 正在分析穿搭...</span></div>';
-    const rule=selectedGender==='male'?'男性賓客，要求穿著正裝（西裝、襯衫領帶等）。':'女性賓客，要求穿著小禮服，且不可穿紅色或白色。';
-    const prompt=`你是婚禮穿搭審核員。請根據圖片判斷這位${rule}\n請用繁體中文嚴格按以下JSON格式回覆，不要輸出其他內容：\n{"pass":true或false,"verdict":"一句話判斷結果（15字以內）","reason":"具體說明（50字以內）","suggestion":"如不合格給建議，合格則null","detected":["穿著特徵1","穿著特徵2"]}`;
     try {
-      const res=await fetch('https://api.anthropic.com/v1/messages',{
+      const res=await fetch('https://weddingsecretary.19931215david.workers.dev',{
         method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:[
-          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:imageBase64}},
-          {type:'text',text:prompt}
-        ]}]})
+        body:JSON.stringify({image:imageBase64,gender:selectedGender})
       });
-      const data=await res.json();
-      const r=JSON.parse(data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
+      const text=await res.text();
+      const r=JSON.parse(text.replace(/```json|```/g,'').trim());
       const pc=r.pass?'pass':'fail';
       const tags=(r.detected||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
       const sugg=r.suggestion?`<p class="result-suggestion">建議：${r.suggestion}</p>`:'';
