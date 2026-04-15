@@ -30,7 +30,7 @@ body {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background-image: url('囍.png');
+  background-image: url('電子喜帖地圖.png');
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
@@ -206,54 +206,63 @@ section { padding: 5rem 2rem; }
   display: none; position: fixed; inset: 0; z-index: 300;
   background: rgba(20,8,8,0.96);
   align-items: center; justify-content: center;
-  padding: 0;
 }
 .invite-lightbox.open { display: flex; }
 .invite-lightbox-close {
   position: fixed; top: 1.2rem; right: 1.2rem;
   background: rgba(245,240,232,0.15); border: 0.5px solid rgba(245,240,232,0.3);
   color: var(--cream); font-size: 1.5rem; width: 40px; height: 40px;
-  border-radius: 50%; cursor: pointer; z-index: 10;
+  border-radius: 50%; cursor: pointer; z-index: 20;
   display: flex; align-items: center; justify-content: center;
   transition: background 0.2s;
 }
 .invite-lightbox-close:hover { background: rgba(245,240,232,0.25); }
 
-.invite-slider-wrap {
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  overflow: hidden;
+/* 三層結構：底層/中間層/頂層 全部對齊同一位置 */
+.invite-layer-base,
+.invite-slider,
+.invite-layer-shadow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(420px, 90vw);
 }
+/* 底層：地圖 */
+.invite-layer-base {
+  z-index: 1;
+}
+.invite-layer-base img { width: 100%; display: block; }
+
+/* 中間層：滑動頁面 */
 .invite-slider {
+  z-index: 2;
   display: flex;
-  width: 100%; height: 100%;
+  overflow: hidden;
+  transition: none;
+}
+.invite-slider-inner {
+  display: flex;
   transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
   will-change: transform;
 }
 .invite-page {
-  min-width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  padding: 3.5rem 1.5rem 5rem;
-  overflow-y: auto;
-}
-.invite-page-inner {
-  position: relative;
-  width: 100%; max-width: 420px;
+  min-width: min(420px, 90vw);
   flex-shrink: 0;
 }
-.invite-layer {
-  width: 100%; display: block;
-}
-.invite-layer-top {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%; object-fit: contain;
-}
+.invite-page img { width: 100%; display: block; }
 
+/* 最上層：陰影 */
+.invite-layer-shadow {
+  z-index: 3;
+  pointer-events: none;
+}
+.invite-layer-shadow img { width: 100%; display: block; mix-blend-mode: multiply; opacity: 0.6; }
+
+/* 導航 */
 .invite-nav {
   position: fixed; bottom: 2rem; left: 0; right: 0;
   display: flex; align-items: center; justify-content: center; gap: 1.5rem;
-  z-index: 10;
+  z-index: 20;
 }
 .invite-nav-btn {
   background: rgba(245,240,232,0.15); border: 0.5px solid rgba(245,240,232,0.3);
@@ -272,7 +281,7 @@ section { padding: 5rem 2rem; }
 .invite-swipe-hint {
   position: fixed; bottom: 0.75rem; left: 0; right: 0;
   text-align: center; font-size: 10px; letter-spacing: 0.15em;
-  color: rgba(245,240,232,0.3);
+  color: rgba(245,240,232,0.3); z-index: 20;
 }
 
 /* INVITE */
@@ -495,43 +504,41 @@ footer {
 </div>
 
 <!-- INVITE LIGHTBOX -->
-<div class="invite-lightbox" id="invite-lightbox" onclick="if(event.target===this)this.classList.remove('open')">
+<div class="invite-lightbox" id="invite-lightbox">
   <button class="invite-lightbox-close" onclick="document.getElementById('invite-lightbox').classList.remove('open')">×</button>
-  <div class="invite-slider-wrap">
-    <div class="invite-slider" id="invite-slider">
-      <!-- 頁面1：封面 囍 -->
-      <div class="invite-page">
-        <div class="invite-page-inner">
-          <img src="囍.png" alt="喜帖封面" class="invite-layer">
-        </div>
-      </div>
-      <!-- 頁面2：主要文字 + 人物疊加 -->
-      <div class="invite-page">
-        <div class="invite-page-inner">
-          <img src="主要文字.png" alt="喜帖內頁" class="invite-layer">
-          <img src="人物.png" alt="人物插圖" class="invite-layer invite-layer-top">
-        </div>
-      </div>
-      <!-- 頁面3：地圖 -->
-      <div class="invite-page">
-        <div class="invite-page-inner">
-          <img src="電子喜帖地圖.png" alt="交通地圖" class="invite-layer">
-          <img src="地圖文字.png" alt="地圖文字" class="invite-layer invite-layer-top">
-        </div>
-      </div>
-    </div>
-    <!-- 導航 -->
-    <div class="invite-nav">
-      <button class="invite-nav-btn" id="invite-prev" onclick="inviteSlide(-1)">‹</button>
-      <div class="invite-nav-dots">
-        <span class="invite-nav-dot active" onclick="inviteGoTo(0)"></span>
-        <span class="invite-nav-dot" onclick="inviteGoTo(1)"></span>
-        <span class="invite-nav-dot" onclick="inviteGoTo(2)"></span>
-      </div>
-      <button class="invite-nav-btn" id="invite-next" onclick="inviteSlide(1)">›</button>
-    </div>
-    <p class="invite-swipe-hint">左右滑動翻頁</p>
+
+  <!-- 底層：地圖（固定不動） -->
+  <div class="invite-layer-base">
+    <img src="電子喜帖地圖.png" alt="">
   </div>
+
+  <!-- 中間層：滑動內容 -->
+  <div class="invite-slider" id="invite-slider">
+    <div class="invite-slider-inner">
+      <div class="invite-page"><img src="囍.png" alt="封面"></div>
+      <div class="invite-page"><img src="主要文字.png" alt="婚禮資訊"></div>
+      <div class="invite-page"><img src="人物.png" alt="人物插圖"></div>
+      <div class="invite-page"><img src="地圖文字.png" alt="地圖說明"></div>
+    </div>
+  </div>
+
+  <!-- 最上層：陰影（固定不動） -->
+  <div class="invite-layer-shadow">
+    <img src="陰影.png" alt="">
+  </div>
+
+  <!-- 導航 -->
+  <div class="invite-nav">
+    <button class="invite-nav-btn" onclick="inviteSlide(-1)">‹</button>
+    <div class="invite-nav-dots">
+      <span class="invite-nav-dot active" onclick="inviteGoTo(0)"></span>
+      <span class="invite-nav-dot" onclick="inviteGoTo(1)"></span>
+      <span class="invite-nav-dot" onclick="inviteGoTo(2)"></span>
+      <span class="invite-nav-dot" onclick="inviteGoTo(3)"></span>
+    </div>
+    <button class="invite-nav-btn" onclick="inviteSlide(1)">›</button>
+  </div>
+  <p class="invite-swipe-hint">左右滑動翻頁</p>
 </div>
 
 <!-- STORY -->
@@ -605,9 +612,6 @@ footer {
           218、220、227、260等多線
         </div>
       </div>
-    </div>
-    <div class="traffic-img-wrap">
-      <img src="電子喜帖地圖.png" alt="交通資訊圖">
     </div>
   </div>
 </section>
@@ -750,15 +754,18 @@ footer {
 
   // INVITE SLIDER
   let inviteCurrent=0;
-  const inviteTotal=3;
+  const inviteTotal=4;
   function inviteGoTo(n) {
     inviteCurrent=Math.max(0,Math.min(n,inviteTotal-1));
-    document.getElementById('invite-slider').style.transform=`translateX(-${inviteCurrent*100}%)`;
+    document.querySelector('.invite-slider-inner').style.transform=`translateX(-${inviteCurrent*100}%)`;
     document.querySelectorAll('.invite-nav-dot').forEach((d,i)=>d.classList.toggle('active',i===inviteCurrent));
   }
   function inviteSlide(dir) { inviteGoTo(inviteCurrent+dir); }
 
-  // Touch swipe for invite
+  // 開啟時重置到第一頁
+  document.querySelector('[onclick*="invite-lightbox"]').addEventListener('click',()=>inviteGoTo(0));
+
+  // Touch swipe
   let tsX=0;
   document.getElementById('invite-lightbox').addEventListener('touchstart',e=>{tsX=e.touches[0].clientX;},{passive:true});
   document.getElementById('invite-lightbox').addEventListener('touchend',e=>{
