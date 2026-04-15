@@ -6,332 +6,442 @@
 <title>David & Ann 的婚禮 ｜ 2026.05.16</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+TC:wght@300;400&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --brick: #8B2020;
-    --brick-light: #A83030;
-    --brick-pale: #C97070;
-    --cream: #F5F0E8;
-    --cream-dark: #EDE5D4;
-    --warm-white: #FDFAF5;
-    --deep: #3A1A1A;
-    --muted: #7A5A5A;
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--warm-white);
-    color: var(--deep);
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: center; gap: clamp(1rem, 3vw, 2.5rem);
-    padding: 1rem 2rem;
-    background: rgba(245,240,232,0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 0.5px solid rgba(139,32,32,0.15);
-    font-size: 11px; letter-spacing: 0.18em; color: var(--muted);
-    flex-wrap: wrap;
-  }
-  nav a { text-decoration: none; color: inherit; transition: color 0.2s; }
-  nav a:hover { color: var(--brick); }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --brick: #8B2020;
+  --brick-light: #A83030;
+  --cream: #F5F0E8;
+  --warm-white: #FDFAF5;
+  --deep: #3A1A1A;
+  --muted: #7A5A5A;
+}
+html { scroll-behavior: smooth; }
+body {
+  color: var(--deep);
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  background: var(--cream);
+  position: relative;
+}
 
-  #hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 7rem 2rem 4rem;
-    position: relative; text-align: center; overflow: hidden;
-  }
-  .hero-slideshow {
-    position: absolute; inset: 0; z-index: 0;
-  }
-  .hero-slide {
-    position: absolute; inset: 0;
-    background-size: cover; background-position: center;
-    opacity: 0; transition: opacity 1.2s ease;
-  }
-  .hero-slide.active { opacity: 1; }
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: rgba(30,10,10,0.45);
-    z-index: 1;
-  }
-  .hero-content {
-    position: relative; z-index: 2;
-  }
-  .hero-arc {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: min(380px, 80vw); height: min(420px, 80vw);
-    border: 0.5px solid rgba(245,240,232,0.15);
-    border-radius: 50% 50% 0 0 / 60% 60% 0 0;
-    pointer-events: none; z-index: 2;
-  }
-  .hero-dots {
-    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 8px; z-index: 3;
-  }
-  .hero-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(245,240,232,0.4); border: none; padding: 0; cursor: pointer;
-    transition: background 0.3s;
-  }
-  .hero-dot.active { background: rgba(245,240,232,0.9); }
-  .hero-eyebrow {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(1rem, 3vw, 1.3rem);
-    color: rgba(245,240,232,0.75);
-    margin-bottom: 1.5rem;
-    animation: fadeUp 1s ease both;
-  }
-  .hero-names {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(3.5rem, 12vw, 7rem);
-    font-weight: 600; line-height: 1.1;
-    color: var(--cream);
-    animation: fadeUp 1s 0.15s ease both;
-  }
-  .hero-amp {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.2rem, 4vw, 2rem);
-    color: rgba(245,240,232,0.55);
-    display: block; margin: 0.2rem 0; font-style: italic;
-  }
-  .hero-divider {
-    width: 50px; height: 0.5px;
-    background: rgba(245,240,232,0.4);
-    margin: 1.8rem auto;
-    animation: fadeUp 1s 0.3s ease both;
-  }
-  .hero-date {
-    font-size: 12px; letter-spacing: 0.3em;
-    color: rgba(245,240,232,0.85);
-    animation: fadeUp 1s 0.35s ease both;
-  }
-  .hero-venue {
-    font-size: 11px; letter-spacing: 0.12em;
-    color: rgba(245,240,232,0.6);
-    margin-top: 0.5rem;
-    animation: fadeUp 1s 0.4s ease both;
-  }
+/* 整頁底圖 */
+.page-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('囍.png');
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  z-index: -2;
+  opacity: 0.18;
+}
 
-  footer {
-    position: relative; overflow: hidden;
-    min-height: 420px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 4rem 2rem;
-    font-size: 11px; letter-spacing: 0.15em;
-  }
-  .footer-bg {
-    position: absolute; inset: 0;
-    background-image: url('photo1.jpg');
-    background-size: cover; background-position: center top;
-    z-index: 0;
-  }
-  .footer-overlay {
-    position: absolute; inset: 0;
-    background: rgba(30,10,10,0.58); z-index: 1;
-  }
-  .footer-content { position: relative; z-index: 2; color: rgba(245,240,232,0.8); }
+/* 光影遮罩 固定在畫面 */
+.page-shadow {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('陰影.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+}
 
-  #countdown {
-    padding: 4rem 2rem;
-    background: var(--cream);
-    text-align: center;
-    border-bottom: 0.5px solid rgba(139,32,32,0.1);
-  }
-  .count-label {
-    font-size: 10px; letter-spacing: 0.3em; color: var(--brick);
-    text-transform: uppercase; margin-bottom: 2rem;
-  }
-  .count-grid {
-    display: flex; justify-content: center;
-    gap: clamp(1rem, 5vw, 4rem); flex-wrap: wrap;
-  }
-  .count-item { text-align: center; }
-  .count-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.8rem, 9vw, 5.5rem);
-    font-weight: 300; color: var(--brick); line-height: 1;
-    display: block; min-width: 2ch;
-  }
-  .count-unit { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); margin-top: 0.4rem; display: block; }
-  .count-sep { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: rgba(139,32,32,0.25); align-self: center; padding-bottom: 0.5rem; }
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: center; gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 1rem 2rem;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 0.5px solid rgba(139,32,32,0.15);
+  font-size: 11px; letter-spacing: 0.18em; color: var(--muted);
+  flex-wrap: wrap;
+}
+nav a { text-decoration: none; color: inherit; transition: color 0.2s; }
+nav a:hover { color: var(--brick); }
 
-  .section-inner { max-width: 720px; margin: 0 auto; }
-  .section-label { font-size: 10px; letter-spacing: 0.3em; color: var(--brick); text-transform: uppercase; margin-bottom: 1rem; }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
-    font-weight: 300; color: var(--deep);
-    margin-bottom: 2rem; line-height: 1.2;
-  }
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 7rem 2rem 4rem;
+  position: relative; text-align: center; overflow: hidden;
+}
+.hero-slideshow {
+  position: absolute; inset: 0; z-index: 0;
+}
+.hero-slide {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0; transition: opacity 1.2s ease;
+}
+.hero-slide.active { opacity: 1; }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: rgba(30,10,10,0.42); z-index: 1;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-illustration {
+  position: absolute; bottom: 0; right: 0;
+  width: min(280px, 45vw);
+  opacity: 0.15; z-index: 2;
+  pointer-events: none;
+}
+.hero-arc {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: min(360px, 80vw); height: min(400px, 80vw);
+  border: 0.5px solid rgba(245,240,232,0.2);
+  border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+  pointer-events: none; z-index: 2;
+}
+.hero-dots {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 3;
+}
+.hero-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(245,240,232,0.35); border: none; padding: 0; cursor: pointer;
+  transition: background 0.3s;
+}
+.hero-dot.active { background: rgba(245,240,232,0.9); }
+.hero-eyebrow {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1rem, 3vw, 1.4rem);
+  color: rgba(245,240,232,0.7); margin-bottom: 1.5rem;
+  animation: fadeUp 1s ease both;
+}
+.hero-names {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(3.5rem, 12vw, 7rem);
+  font-weight: 600; line-height: 1.1; color: var(--cream);
+  animation: fadeUp 1s 0.15s ease both;
+}
+.hero-amp {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  color: rgba(245,240,232,0.5);
+  display: block; margin: 0.2rem 0; font-style: italic;
+}
+.hero-divider {
+  width: 50px; height: 0.5px;
+  background: rgba(245,240,232,0.35);
+  margin: 1.8rem auto;
+  animation: fadeUp 1s 0.3s ease both;
+}
+.hero-date {
+  font-size: 12px; letter-spacing: 0.3em;
+  color: rgba(245,240,232,0.8);
+  animation: fadeUp 1s 0.35s ease both;
+}
+.hero-venue {
+  font-size: 11px; letter-spacing: 0.12em;
+  color: rgba(245,240,232,0.55); margin-top: 0.5rem;
+  animation: fadeUp 1s 0.4s ease both;
+}
 
-  #invite { padding: 5rem 2rem; background: var(--warm-white); }
-  .invite-img-wrap {
-    border: 0.5px solid rgba(139,32,32,0.15); overflow: hidden;
-  }
-  .invite-img-wrap img { width: 100%; display: block; }
+/* COUNTDOWN */
+#countdown {
+  padding: 4rem 2rem;
+  background: rgba(139,32,32,0.92);
+  backdrop-filter: blur(4px);
+  text-align: center;
+}
+.count-label {
+  font-size: 10px; letter-spacing: 0.3em; color: rgba(245,240,232,0.7);
+  text-transform: uppercase; margin-bottom: 2rem;
+}
+.count-grid {
+  display: flex; justify-content: center;
+  gap: clamp(1rem, 5vw, 4rem); flex-wrap: wrap;
+}
+.count-item { text-align: center; }
+.count-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 9vw, 5.5rem);
+  font-weight: 300; color: var(--cream); line-height: 1;
+  display: block; min-width: 2ch;
+}
+.count-unit { font-size: 10px; letter-spacing: 0.2em; color: rgba(245,240,232,0.6); margin-top: 0.4rem; display: block; }
+.count-sep { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: rgba(245,240,232,0.25); align-self: center; padding-bottom: 0.5rem; }
 
-  #story { background: var(--cream); padding: 5rem 2rem; }
-  .story-text { font-size: 15px; line-height: 2.1; color: var(--deep); }
-  .story-highlight {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(1.2rem, 3vw, 1.6rem);
-    color: var(--brick); display: block; margin: 1.5rem 0;
-    border-left: 2px solid rgba(139,32,32,0.3); padding-left: 1.2rem; line-height: 1.6;
-  }
+/* SECTIONS */
+.section-wrap {
+  background: rgba(245,240,232,0.88);
+  backdrop-filter: blur(6px);
+}
+.section-wrap.dark {
+  background: rgba(58,26,26,0.06);
+}
+section { padding: 5rem 2rem; }
+.section-inner { max-width: 720px; margin: 0 auto; }
+.section-label { font-size: 10px; letter-spacing: 0.3em; color: var(--brick); text-transform: uppercase; margin-bottom: 1rem; }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 300; color: var(--deep);
+  margin-bottom: 2rem; line-height: 1.2;
+}
 
-  #photos { background: var(--warm-white); padding: 5rem 2rem; }
-  .photos-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem; margin-top: 2rem;
-  }
-  .photo-slot {
-    overflow: hidden; border: 0.5px solid rgba(139,32,32,0.12);
-    aspect-ratio: 3/4; position: relative;
-  }
-  .photo-slot img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.5s ease;
-  }
-  .photo-slot:hover img { transform: scale(1.04); }
-  .photo-slot-caption {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 0.6rem 0.75rem;
-    background: linear-gradient(transparent, rgba(58,26,26,0.55));
-    font-size: 10px; letter-spacing: 0.15em; color: rgba(245,240,232,0.85);
-    text-align: center;
-  }
+/* INVITE BUTTON */
+.invite-open-btn {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.1rem 2rem;
+  border: 0.5px solid var(--brick); background: transparent;
+  color: var(--brick); font-family: inherit; font-size: 14px;
+  letter-spacing: 0.12em; cursor: pointer; transition: all 0.25s;
+  width: 100%; max-width: 360px;
+}
+.invite-open-btn:hover { background: var(--brick); color: var(--cream); }
+.invite-btn-icon { font-size: 18px; }
+.invite-btn-arrow { margin-left: auto; font-size: 12px; opacity: 0.6; }
 
-  #info { background: var(--cream); padding: 5rem 2rem; }
-  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
-  @media (max-width: 520px) { .info-grid { grid-template-columns: 1fr; } }
-  .info-card { background: var(--warm-white); padding: 1.5rem; border: 0.5px solid rgba(139,32,32,0.15); }
-  .info-card-title { font-size: 10px; letter-spacing: 0.2em; color: var(--brick); text-transform: uppercase; margin-bottom: 0.75rem; }
-  .info-card-body { font-size: 13px; line-height: 2; color: var(--muted); }
-  .info-card-body strong { color: var(--deep); font-weight: 400; }
-  .map-link {
-    display: inline-block; margin-top: 0.75rem; font-size: 11px; color: var(--brick);
-    letter-spacing: 0.1em; text-decoration: none; border-bottom: 0.5px solid rgba(139,32,32,0.3);
-    padding-bottom: 1px; transition: opacity 0.2s;
-  }
-  .map-link:hover { opacity: 0.7; }
-  .traffic-img-wrap { margin-top: 1.5rem; border: 0.5px solid rgba(139,32,32,0.15); overflow: hidden; }
-  .traffic-img-wrap img { width: 100%; display: block; }
+/* INVITE LIGHTBOX */
+.invite-lightbox {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: rgba(20,8,8,0.96);
+  align-items: center; justify-content: center;
+  padding: 0;
+}
+.invite-lightbox.open { display: flex; }
+.invite-lightbox-close {
+  position: fixed; top: 1.2rem; right: 1.2rem;
+  background: rgba(245,240,232,0.15); border: 0.5px solid rgba(245,240,232,0.3);
+  color: var(--cream); font-size: 1.5rem; width: 40px; height: 40px;
+  border-radius: 50%; cursor: pointer; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.invite-lightbox-close:hover { background: rgba(245,240,232,0.25); }
 
-  #dresscode { background: var(--warm-white); padding: 5rem 2rem; }
-  .dc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
-  @media (max-width: 520px) { .dc-grid { grid-template-columns: 1fr; } }
-  .dc-card { padding: 1.75rem 1.5rem; border: 0.5px solid rgba(139,32,32,0.2); background: var(--cream); }
-  .dc-card-title { font-size: 11px; letter-spacing: 0.15em; color: var(--brick); margin-bottom: 0.75rem; }
-  .dc-card-body { font-size: 13px; line-height: 2; color: var(--muted); }
-  .dc-note { font-size: 11px; color: var(--brick); margin-top: 0.5rem; }
-  .dc-checker-btn {
-    display: inline-block; margin-top: 2rem; padding: 0.85rem 2rem;
-    border: 0.5px solid var(--brick); background: transparent;
-    color: var(--brick); font-size: 12px; letter-spacing: 0.15em;
-    cursor: pointer; transition: all 0.25s; font-family: inherit;
-  }
-  .dc-checker-btn:hover { background: var(--brick); color: var(--cream); }
+.invite-slider-wrap {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.invite-slider {
+  display: flex;
+  width: 100%; height: 100%;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform;
+}
+.invite-page {
+  min-width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  padding: 3.5rem 1.5rem 5rem;
+  overflow-y: auto;
+}
+.invite-page-inner {
+  position: relative;
+  width: 100%; max-width: 420px;
+  flex-shrink: 0;
+}
+.invite-layer {
+  width: 100%; display: block;
+}
+.invite-layer-top {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%; object-fit: contain;
+}
 
-  .foot-names { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 6vw, 2.8rem); color: var(--cream); margin-bottom: 0.75rem; }
+.invite-nav {
+  position: fixed; bottom: 2rem; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+  z-index: 10;
+}
+.invite-nav-btn {
+  background: rgba(245,240,232,0.15); border: 0.5px solid rgba(245,240,232,0.3);
+  color: var(--cream); font-size: 1.8rem; width: 44px; height: 44px;
+  border-radius: 50%; cursor: pointer; transition: background 0.2s;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+}
+.invite-nav-btn:hover { background: rgba(245,240,232,0.25); }
+.invite-nav-dots { display: flex; gap: 8px; align-items: center; }
+.invite-nav-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(245,240,232,0.3); cursor: pointer; transition: background 0.3s;
+  border: none; padding: 0;
+}
+.invite-nav-dot.active { background: rgba(245,240,232,0.9); }
+.invite-swipe-hint {
+  position: fixed; bottom: 0.75rem; left: 0; right: 0;
+  text-align: center; font-size: 10px; letter-spacing: 0.15em;
+  color: rgba(245,240,232,0.3);
+}
 
-  #contact { background: var(--cream); padding: 5rem 2rem; }
-  .contact-grid {
-    display: flex; align-items: center; gap: 2rem;
-  }
-  .contact-side { flex: 1; text-align: center; }
-  .contact-divider { width: 0.5px; height: 80px; background: rgba(139,32,32,0.2); flex-shrink: 0; }
-  .contact-side-label { font-size: 10px; letter-spacing: 0.25em; color: var(--brick); text-transform: uppercase; margin-bottom: 1rem; }
-  .contact-btn {
-    width: 100%; padding: 1rem 1.25rem;
-    border: 0.5px solid rgba(139,32,32,0.25); background: var(--warm-white);
-    color: var(--deep); font-family: inherit; font-size: 14px;
-    cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  }
-  .contact-btn:hover { border-color: var(--brick); background: rgba(139,32,32,0.03); }
-  .contact-btn-icon { font-size: 16px; }
-  .contact-btn-arrow { font-size: 12px; color: var(--brick); opacity: 0.6; }
+/* INVITE */
+.invite-img-wrap { border: 0.5px solid rgba(139,32,32,0.15); overflow: hidden; }
+.invite-img-wrap img { width: 100%; display: block; }
 
-  .contact-modal-photo {
-    width: 100%; max-height: 320px; object-fit: cover; object-position: top;
-    display: block; margin-bottom: 1.25rem;
-  }
-  .contact-modal-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem; font-weight: 300; color: var(--deep);
-    text-align: center; margin-bottom: 0.3rem;
-  }
-  .contact-modal-role {
-    font-size: 11px; letter-spacing: 0.2em; color: var(--brick);
-    text-align: center;
-  }
+/* STORY */
+.story-text { font-size: 15px; line-height: 2.1; color: var(--deep); }
+.story-highlight {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: var(--brick); display: block; margin: 1.5rem 0;
+  border-left: 2px solid rgba(139,32,32,0.3); padding-left: 1.2rem; line-height: 1.6;
+}
 
-  .modal-backdrop {
-    display: none; position: fixed; inset: 0; z-index: 200;
-    background: rgba(58,26,26,0.8); align-items: center; justify-content: center; padding: 1rem;
-  }
-  .modal-backdrop.open { display: flex; }
-  .modal {
-    background: var(--warm-white); max-width: 460px; width: 100%;
-    padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;
-    border-top: 3px solid var(--brick);
-  }
-  .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.4rem; color: var(--muted); cursor: pointer; }
-  .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--deep); margin-bottom: 0.4rem; }
-  .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.7; }
-  .gender-toggle { display: flex; gap: 8px; margin-bottom: 1rem; }
-  .gender-btn {
-    flex: 1; padding: 0.6rem; border: 0.5px solid rgba(139,32,32,0.3); background: transparent;
-    color: var(--muted); font-size: 12px; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; font-family: inherit;
-  }
-  .gender-btn.active { border-color: var(--brick); color: var(--brick); background: rgba(139,32,32,0.05); }
-  .dc-hint { background: rgba(139,32,32,0.05); border-left: 2px solid rgba(139,32,32,0.3); padding: 0.75rem 1rem; font-size: 12px; color: var(--muted); margin-bottom: 1rem; line-height: 1.7; }
-  .upload-zone { border: 1px dashed rgba(139,32,32,0.3); padding: 1.75rem 1rem; text-align: center; cursor: pointer; transition: background 0.2s; display: block; }
-  .upload-zone:hover { background: rgba(139,32,32,0.03); }
-  .upload-zone input { display: none; }
-  .upload-zone p { font-size: 12px; color: var(--muted); margin: 0; }
-  .upload-zone p.sub { font-size: 10px; color: var(--brick-pale); margin-top: 4px; }
-  .preview-img { width: 100%; max-height: 220px; object-fit: cover; margin: 0.75rem 0; display: none; }
-  .check-btn {
-    width: 100%; padding: 0.85rem; background: var(--brick); border: none;
-    color: var(--cream); font-size: 12px; letter-spacing: 0.15em;
-    cursor: pointer; transition: background 0.2s; font-family: inherit; margin-top: 0.5rem;
-  }
-  .check-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .check-btn:not(:disabled):hover { background: var(--brick-light); }
-  .result-box { margin-top: 1rem; padding: 1rem; border: 0.5px solid rgba(139,32,32,0.2); }
-  .result-pass { border-color: #5a8f5a; background: rgba(90,143,90,0.05); }
-  .result-fail { border-color: #c97a7a; background: rgba(201,122,122,0.05); }
-  .result-verdict { font-size: 14px; font-weight: 400; margin-bottom: 0.5rem; }
-  .result-verdict.pass { color: #3d6b3d; }
-  .result-verdict.fail { color: #8f3d3d; }
-  .result-reason { font-size: 12px; color: var(--muted); line-height: 1.8; }
-  .result-suggestion { font-size: 12px; color: var(--brick); margin-top: 0.5rem; line-height: 1.7; }
-  .result-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
-  .result-tag { font-size: 10px; padding: 3px 10px; border: 0.5px solid rgba(139,32,32,0.25); color: var(--muted); }
-  .loader-row { display: flex; gap: 6px; align-items: center; padding: 1rem 0; }
-  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--brick-pale); animation: bounce 1s infinite; }
-  .dot:nth-child(2) { animation-delay: 0.15s; }
-  .dot:nth-child(3) { animation-delay: 0.3s; }
+/* PHOTOS */
+.photos-coming-text {
+  font-size: 13px; letter-spacing: 0.2em; color: var(--muted);
+  text-align: center; padding: 3rem 0;
+}
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
+/* INFO */
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+@media (max-width: 520px) { .info-grid { grid-template-columns: 1fr; } }
+.info-card { background: rgba(253,250,245,0.8); padding: 1.5rem; border: 0.5px solid rgba(139,32,32,0.15); }
+.info-card-title { font-size: 10px; letter-spacing: 0.2em; color: var(--brick); text-transform: uppercase; margin-bottom: 0.75rem; }
+.info-card-body { font-size: 13px; line-height: 2; color: var(--muted); }
+.info-card-body strong { color: var(--deep); font-weight: 400; }
+.map-link {
+  display: inline-block; margin-top: 0.75rem; font-size: 11px; color: var(--brick);
+  letter-spacing: 0.1em; text-decoration: none; border-bottom: 0.5px solid rgba(139,32,32,0.3);
+  padding-bottom: 1px; transition: opacity 0.2s;
+}
+.map-link:hover { opacity: 0.7; }
+.traffic-img-wrap { margin-top: 1.5rem; border: 0.5px solid rgba(139,32,32,0.15); overflow: hidden; }
+.traffic-img-wrap img { width: 100%; display: block; }
+
+/* CONTACT */
+.contact-grid { display: flex; align-items: center; gap: 2rem; }
+.contact-side { flex: 1; text-align: center; }
+.contact-divider { width: 0.5px; height: 80px; background: rgba(139,32,32,0.2); flex-shrink: 0; }
+.contact-side-label { font-size: 10px; letter-spacing: 0.25em; color: var(--brick); text-transform: uppercase; margin-bottom: 1rem; }
+.contact-btn {
+  width: 100%; padding: 1rem 1.25rem;
+  border: 0.5px solid rgba(139,32,32,0.25); background: rgba(253,250,245,0.8);
+  color: var(--deep); font-family: inherit; font-size: 14px;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+.contact-btn:hover { border-color: var(--brick); background: rgba(139,32,32,0.04); }
+.contact-btn-icon { font-size: 16px; }
+.contact-btn-arrow { font-size: 12px; color: var(--brick); opacity: 0.6; }
+
+/* DRESSCODE */
+.dc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+@media (max-width: 520px) { .dc-grid { grid-template-columns: 1fr; } }
+.dc-card { padding: 1.75rem 1.5rem; border: 0.5px solid rgba(139,32,32,0.2); background: rgba(253,250,245,0.8); }
+.dc-card-title { font-size: 11px; letter-spacing: 0.15em; color: var(--brick); margin-bottom: 0.75rem; }
+.dc-card-body { font-size: 13px; line-height: 2; color: var(--muted); }
+.dc-note { font-size: 11px; color: var(--brick); margin-top: 0.5rem; }
+.dc-checker-btn {
+  display: inline-block; margin-top: 2rem; padding: 0.85rem 2rem;
+  border: 0.5px solid var(--brick); background: transparent;
+  color: var(--brick); font-size: 12px; letter-spacing: 0.15em;
+  cursor: pointer; transition: all 0.25s; font-family: inherit;
+}
+.dc-checker-btn:hover { background: var(--brick); color: var(--cream); }
+
+/* FOOTER */
+footer {
+  position: relative; overflow: hidden;
+  min-height: 420px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 4rem 2rem;
+  font-size: 11px; letter-spacing: 0.15em;
+}
+.footer-bg {
+  position: absolute; inset: 0;
+  background-image: url('photo1.jpg');
+  background-size: cover; background-position: center top; z-index: 0;
+}
+.footer-overlay {
+  position: absolute; inset: 0;
+  background: rgba(30,10,10,0.58); z-index: 1;
+}
+.footer-content { position: relative; z-index: 2; color: rgba(245,240,232,0.8); }
+.foot-names { font-family: 'Dancing Script', cursive; font-size: clamp(2rem, 6vw, 2.8rem); color: var(--cream); margin-bottom: 0.75rem; }
+
+/* 人物插圖裝飾 */
+.illustration-deco {
+  width: 100%; max-width: 300px;
+  display: block; margin: 2rem auto 0;
+  opacity: 0.85;
+}
+
+/* MODALS */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(58,26,26,0.8); align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--warm-white); max-width: 460px; width: 100%;
+  padding: 2rem; position: relative; max-height: 90vh; overflow-y: auto;
+  border-top: 3px solid var(--brick);
+}
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.4rem; color: var(--muted); cursor: pointer; }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--deep); margin-bottom: 0.4rem; }
+.modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.7; }
+.gender-toggle { display: flex; gap: 8px; margin-bottom: 1rem; }
+.gender-btn {
+  flex: 1; padding: 0.6rem; border: 0.5px solid rgba(139,32,32,0.3); background: transparent;
+  color: var(--muted); font-size: 12px; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.gender-btn.active { border-color: var(--brick); color: var(--brick); background: rgba(139,32,32,0.05); }
+.dc-hint { background: rgba(139,32,32,0.05); border-left: 2px solid rgba(139,32,32,0.3); padding: 0.75rem 1rem; font-size: 12px; color: var(--muted); margin-bottom: 1rem; line-height: 1.7; }
+.upload-zone { border: 1px dashed rgba(139,32,32,0.3); padding: 1.75rem 1rem; text-align: center; cursor: pointer; transition: background 0.2s; display: block; }
+.upload-zone:hover { background: rgba(139,32,32,0.03); }
+.upload-zone input { display: none; }
+.upload-zone p { font-size: 12px; color: var(--muted); margin: 0; }
+.upload-zone p.sub { font-size: 10px; color: #C97070; margin-top: 4px; }
+.preview-img { width: 100%; max-height: 220px; object-fit: cover; margin: 0.75rem 0; display: none; }
+.check-btn {
+  width: 100%; padding: 0.85rem; background: var(--brick); border: none;
+  color: var(--cream); font-size: 12px; letter-spacing: 0.15em;
+  cursor: pointer; transition: background 0.2s; font-family: inherit; margin-top: 0.5rem;
+}
+.check-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.check-btn:not(:disabled):hover { background: var(--brick-light); }
+.result-box { margin-top: 1rem; padding: 1rem; border: 0.5px solid rgba(139,32,32,0.2); }
+.result-pass { border-color: #5a8f5a; background: rgba(90,143,90,0.05); }
+.result-fail { border-color: #c97a7a; background: rgba(201,122,122,0.05); }
+.result-verdict { font-size: 14px; font-weight: 400; margin-bottom: 0.5rem; }
+.result-verdict.pass { color: #3d6b3d; }
+.result-verdict.fail { color: #8f3d3d; }
+.result-reason { font-size: 12px; color: var(--muted); line-height: 1.8; }
+.result-suggestion { font-size: 12px; color: var(--brick); margin-top: 0.5rem; line-height: 1.7; }
+.result-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+.result-tag { font-size: 10px; padding: 3px 10px; border: 0.5px solid rgba(139,32,32,0.25); color: var(--muted); }
+.loader-row { display: flex; gap: 6px; align-items: center; padding: 1rem 0; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #C97070; animation: bounce 1s infinite; }
+.dot:nth-child(2) { animation-delay: 0.15s; }
+.dot:nth-child(3) { animation-delay: 0.3s; }
+
+.contact-modal-photo { width: 100%; max-height: 320px; object-fit: cover; object-position: top; display: block; margin-bottom: 1.25rem; }
+.contact-modal-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--deep); text-align: center; margin-bottom: 0.3rem; }
+.contact-modal-role { font-size: 11px; letter-spacing: 0.2em; color: var(--brick); text-align: center; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
 </style>
 </head>
 <body>
+
+<!-- 整頁底圖 -->
+<div class="page-bg"></div>
+<!-- 光影遮罩 -->
+<div class="page-shadow"></div>
 
 <nav>
   <a href="#invite">電子喜帖</a>
   <a href="#story">我們的故事</a>
   <a href="#photos">婚紗照</a>
   <a href="#info">活動資訊</a>
+  <a href="#contact">聯絡人</a>
   <a href="#dresscode">穿搭指南</a>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-slideshow">
     <div class="hero-slide active" style="background-image:url('photo4.jpg')"></div>
@@ -354,6 +464,7 @@
   </div>
 </section>
 
+<!-- COUNTDOWN -->
 <div id="countdown">
   <p class="count-label">距離我們的婚禮</p>
   <div class="count-grid">
@@ -367,16 +478,64 @@
   </div>
 </div>
 
+<!-- INVITE -->
+<div class="section-wrap">
 <section id="invite">
   <div class="section-inner">
     <p class="section-label">Invitation</p>
     <h2 class="section-title">電子喜帖</h2>
-    <div class="invite-img-wrap">
-      <img src="invite.jpg" alt="婚禮喜帖">
-    </div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.9;margin-bottom:2rem">感謝您撥冗前來，請點擊下方查看完整喜帖。</p>
+    <button class="invite-open-btn" onclick="document.getElementById('invite-lightbox').classList.add('open')">
+      <span class="invite-btn-icon">💌</span>
+      <span>查看電子喜帖</span>
+      <span class="invite-btn-arrow">→</span>
+    </button>
   </div>
 </section>
+</div>
 
+<!-- INVITE LIGHTBOX -->
+<div class="invite-lightbox" id="invite-lightbox" onclick="if(event.target===this)this.classList.remove('open')">
+  <button class="invite-lightbox-close" onclick="document.getElementById('invite-lightbox').classList.remove('open')">×</button>
+  <div class="invite-slider-wrap">
+    <div class="invite-slider" id="invite-slider">
+      <!-- 頁面1：封面 囍 -->
+      <div class="invite-page">
+        <div class="invite-page-inner">
+          <img src="囍.png" alt="喜帖封面" class="invite-layer">
+        </div>
+      </div>
+      <!-- 頁面2：主要文字 + 人物疊加 -->
+      <div class="invite-page">
+        <div class="invite-page-inner">
+          <img src="主要文字.png" alt="喜帖內頁" class="invite-layer">
+          <img src="人物.png" alt="人物插圖" class="invite-layer invite-layer-top">
+        </div>
+      </div>
+      <!-- 頁面3：地圖 -->
+      <div class="invite-page">
+        <div class="invite-page-inner">
+          <img src="電子喜帖地圖.png" alt="交通地圖" class="invite-layer">
+          <img src="地圖文字.png" alt="地圖文字" class="invite-layer invite-layer-top">
+        </div>
+      </div>
+    </div>
+    <!-- 導航 -->
+    <div class="invite-nav">
+      <button class="invite-nav-btn" id="invite-prev" onclick="inviteSlide(-1)">‹</button>
+      <div class="invite-nav-dots">
+        <span class="invite-nav-dot active" onclick="inviteGoTo(0)"></span>
+        <span class="invite-nav-dot" onclick="inviteGoTo(1)"></span>
+        <span class="invite-nav-dot" onclick="inviteGoTo(2)"></span>
+      </div>
+      <button class="invite-nav-btn" id="invite-next" onclick="inviteSlide(1)">›</button>
+    </div>
+    <p class="invite-swipe-hint">左右滑動翻頁</p>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="section-wrap dark">
 <section id="story">
   <div class="section-inner">
     <p class="section-label">Our Story</p>
@@ -387,17 +546,24 @@
       <p>那一年，David 和 Ann 在清大校園相遇，青春的記憶、圖書館的燈光、宿舍樓下的夜風，都成了兩人故事的底色。從同學到朋友，從朋友到彼此最重要的人，這段緣份走過了時間的考驗，也走到了今天。</p>
       <p style="margin-top:1rem">2026年5月16日，我們選擇在最親愛的家人與朋友面前，許下一生的承諾。謝謝你們一路見證我們的成長，也謝謝你們願意來陪我們走進這最美的一天。</p>
     </div>
+    <img src="人物.png" alt="" class="illustration-deco">
   </div>
 </section>
+</div>
 
+<!-- PHOTOS -->
+<div class="section-wrap">
 <section id="photos">
   <div class="section-inner">
     <p class="section-label">Wedding Photos</p>
     <h2 class="section-title">婚紗照</h2>
-    <p style="font-size:13px;letter-spacing:0.2em;color:var(--muted);text-align:center;padding:3rem 0">敬請期待現場展示</p>
+    <p class="photos-coming-text">敬請期待現場展示</p>
   </div>
 </section>
+</div>
 
+<!-- INFO -->
+<div class="section-wrap dark">
 <section id="info">
   <div class="section-inner">
     <p class="section-label">Event Details</p>
@@ -441,11 +607,14 @@
       </div>
     </div>
     <div class="traffic-img-wrap">
-      <img src="traffic.jpg" alt="交通資訊圖">
+      <img src="電子喜帖地圖.png" alt="交通資訊圖">
     </div>
   </div>
 </section>
+</div>
 
+<!-- CONTACT -->
+<div class="section-wrap">
 <section id="contact">
   <div class="section-inner">
     <p class="section-label">Contact</p>
@@ -472,7 +641,10 @@
     </div>
   </div>
 </section>
+</div>
 
+<!-- DRESSCODE -->
+<div class="section-wrap dark">
 <section id="dresscode">
   <div class="section-inner">
     <p class="section-label">Dress Code</p>
@@ -491,7 +663,9 @@
     <button class="dc-checker-btn" onclick="document.getElementById('modal').classList.add('open')">AI 穿搭合適度檢查 →</button>
   </div>
 </section>
+</div>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-bg"></div>
   <div class="footer-overlay"></div>
@@ -502,6 +676,7 @@
   </div>
 </footer>
 
+<!-- CONTACT MODAL -->
 <div class="modal-backdrop" id="contact-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="padding:0;overflow:hidden;max-width:360px">
     <button class="modal-close" style="top:0.75rem;right:0.75rem;background:rgba(245,240,232,0.9);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:10" onclick="document.getElementById('contact-modal').classList.remove('open')">×</button>
@@ -513,6 +688,7 @@
   </div>
 </div>
 
+<!-- AI CHECKER MODAL -->
 <div class="modal-backdrop" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">×</button>
@@ -535,6 +711,7 @@
 </div>
 
 <script>
+  // COUNTDOWN
   function updateCountdown() {
     const diff = new Date('2026-05-16T17:30:00+08:00') - new Date();
     if (diff <= 0) { ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id=>document.getElementById(id).textContent='0'); return; }
@@ -545,33 +722,53 @@
   }
   updateCountdown(); setInterval(updateCountdown,1000);
 
-  function openContact(side) {
-    const data = {
-      male:   { name:'阿浦', role:'新郎方聯絡人', photo:'contact-male.jpg' },
-      female: { name:'YC',   role:'新娘方聯絡人', photo:'contact-female.jpg' }
-    };
-    const d = data[side];
-    document.getElementById('contact-photo').src = d.photo;
-    document.getElementById('contact-name').textContent = d.name;
-    document.getElementById('contact-role').textContent = d.role;
-    document.getElementById('contact-modal').classList.add('open');
-  }
-
-  // Slideshow
-  let currentSlide = 0;
-  const slides = document.querySelectorAll('.hero-slide');
-  const dots = document.querySelectorAll('.hero-dot');
+  // SLIDESHOW
+  let currentSlide=0;
+  const slides=document.querySelectorAll('.hero-slide');
+  const dots=document.querySelectorAll('.hero-dot');
   function goSlide(n) {
     slides[currentSlide].classList.remove('active');
     dots[currentSlide].classList.remove('active');
-    currentSlide = n;
+    currentSlide=n;
     slides[currentSlide].classList.add('active');
     dots[currentSlide].classList.add('active');
   }
-  setInterval(() => goSlide((currentSlide + 1) % slides.length), 4500);
+  setInterval(()=>goSlide((currentSlide+1)%slides.length),4500);
 
+  // CONTACT
+  function openContact(side) {
+    const data={
+      male:   {name:'阿浦',role:'新郎方聯絡人',photo:'contact-male.jpg'},
+      female: {name:'YC',  role:'新娘方聯絡人',photo:'contact-female.jpg'}
+    };
+    const d=data[side];
+    document.getElementById('contact-photo').src=d.photo;
+    document.getElementById('contact-name').textContent=d.name;
+    document.getElementById('contact-role').textContent=d.role;
+    document.getElementById('contact-modal').classList.add('open');
+  }
+
+  // INVITE SLIDER
+  let inviteCurrent=0;
+  const inviteTotal=3;
+  function inviteGoTo(n) {
+    inviteCurrent=Math.max(0,Math.min(n,inviteTotal-1));
+    document.getElementById('invite-slider').style.transform=`translateX(-${inviteCurrent*100}%)`;
+    document.querySelectorAll('.invite-nav-dot').forEach((d,i)=>d.classList.toggle('active',i===inviteCurrent));
+  }
+  function inviteSlide(dir) { inviteGoTo(inviteCurrent+dir); }
+
+  // Touch swipe for invite
+  let tsX=0;
+  document.getElementById('invite-lightbox').addEventListener('touchstart',e=>{tsX=e.touches[0].clientX;},{passive:true});
+  document.getElementById('invite-lightbox').addEventListener('touchend',e=>{
+    const diff=tsX-e.changedTouches[0].clientX;
+    if(Math.abs(diff)>50) inviteSlide(diff>0?1:-1);
+  },{passive:true});
+
+  // AI CHECKER
   let selectedGender='male', imageBase64=null;
-  const hints = { male:'男性著裝要求：正裝（西裝、襯衫領帶等）', female:'女性著裝要求：小禮服，請避免紅色或白色' };
+  const hints={male:'男性著裝要求：正裝（西裝、襯衫領帶等）',female:'女性著裝要求：小禮服，請避免紅色或白色'};
   function selectGender(g) {
     selectedGender=g;
     document.getElementById('btn-male').classList.toggle('active',g==='male');
@@ -602,12 +799,8 @@
       });
       const text=await res.text();
       let r;
-      try {
-        r=JSON.parse(text.replace(/```json|```/g,'').trim());
-      } catch(e) {
-        const match=text.match(/\{[\s\S]*\}/);
-        r=match?JSON.parse(match[0]):{pass:false,verdict:'解析失敗',reason:'請重試',suggestion:null,detected:[]};
-      }
+      try { r=JSON.parse(text.replace(/```json|```/g,'').trim()); }
+      catch(e) { const m=text.match(/\{[\s\S]*\}/); r=m?JSON.parse(m[0]):{pass:false,verdict:'解析失敗',reason:'請重試',suggestion:null,detected:[]}; }
       const pc=r.pass?'pass':'fail';
       const tags=(r.detected||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
       const sugg=r.suggestion?`<p class="result-suggestion">建議：${r.suggestion}</p>`:'';
