@@ -313,7 +313,19 @@ section { padding: 5rem 2rem; }
 .dc-card-body { font-size: 13px; line-height: 2; color: var(--muted); }
 .dc-note { font-size: 11px; color: var(--brick); margin-top: 0.5rem; }
 /* OUTFIT REFERENCE */
-.outfit-sections-wrap { margin-top: 2rem; }
+.outfit-sections-wrap {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 0px 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
+  position: relative;
+}
+.outfit-divider {
+  width: 0.5px;
+  background: rgba(139,32,32,0.2);
+  align-self: stretch;
+}
 .outfit-section { margin-bottom: 1.5rem; }
 .outfit-section-label {
   font-size: 10px; letter-spacing: 0.25em; color: var(--brick);
@@ -339,14 +351,12 @@ section { padding: 5rem 2rem; }
 
 @media (max-width: 639px) {
   .outfit-sections-wrap {
-    display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
   }
+  .outfit-divider { display: none; }
   .outfit-section { margin-bottom: 0; }
-  .outfit-grid {
-    grid-template-columns: 1fr;
-  }
+  .outfit-grid { grid-template-columns: 1fr; }
 }
 
 /* DC CHECKER */
@@ -657,6 +667,7 @@ footer {
           <div class="outfit-photo"><img src="男3.png" alt="男性穿搭參考3"></div>
         </div>
       </div>
+      <div class="outfit-divider"></div>
       <div class="outfit-section">
         <p class="outfit-section-label">Ladies</p>
         <div class="outfit-grid">
