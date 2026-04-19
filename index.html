@@ -609,7 +609,7 @@ footer {
         <div class="dc-card-body">小禮服、洋裝<br>優雅正式為主<p class="dc-note">＊請避免穿著紅色或白色</p></div>
       </div>
     </div>
-    <button class="dc-checker-btn" onclick="document.getElementById('modal').classList.add('open')">AI 穿搭合適度檢查 →</button>
+    <a class="dc-checker-btn" href="https://drive.google.com/drive/folders/1vVR6qaJZx40UL_-YwuOcwZVqYhXHxRJJ" target="_blank">穿搭參考 →</a>
   </div>
 </section>
 </div>
@@ -637,27 +637,6 @@ footer {
   </div>
 </div>
 
-<!-- AI CHECKER MODAL -->
-<div class="modal-backdrop" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">×</button>
-    <h3 class="modal-title">穿搭 AI 審核</h3>
-    <p class="modal-sub">上傳您的穿搭照片，AI 將協助確認是否符合婚宴 Dress Code。</p>
-    <div class="gender-toggle">
-      <button class="gender-btn active" id="btn-male" onclick="selectGender('male')">男性賓客</button>
-      <button class="gender-btn" id="btn-female" onclick="selectGender('female')">女性賓客</button>
-    </div>
-    <div class="dc-hint" id="dc-hint">男性著裝要求：正裝（西裝、襯衫領帶等）</div>
-    <label class="upload-zone" for="file-input">
-      <p>點擊上傳穿搭照片</p>
-      <p class="sub">支援 JPG、PNG</p>
-      <input type="file" id="file-input" accept="image/*" onchange="handleFile(event)">
-    </label>
-    <img id="preview" class="preview-img" alt="穿搭預覽">
-    <button class="check-btn" id="check-btn" disabled onclick="analyze()">上傳照片後開始審核</button>
-    <div id="result-area"></div>
-  </div>
-</div>
 
 <script>
   // COUNTDOWN
@@ -695,51 +674,6 @@ footer {
     document.getElementById('contact-name').textContent=d.name;
     document.getElementById('contact-role').textContent=d.role;
     document.getElementById('contact-modal').classList.add('open');
-  }
-
-  // AI CHECKER
-  let selectedGender='male', imageBase64=null;
-  const hints={male:'男性著裝要求：正裝（西裝、襯衫領帶等）',female:'女性著裝要求：小禮服，請避免紅色或白色'};
-  function selectGender(g) {
-    selectedGender=g;
-    document.getElementById('btn-male').classList.toggle('active',g==='male');
-    document.getElementById('btn-female').classList.toggle('active',g==='female');
-    document.getElementById('dc-hint').textContent=hints[g];
-    document.getElementById('result-area').innerHTML='';
-  }
-  function handleFile(e) {
-    const file=e.target.files[0]; if(!file) return;
-    const reader=new FileReader();
-    reader.onload=ev=>{
-      imageBase64=ev.target.result.split(',')[1];
-      const p=document.getElementById('preview'); p.src=ev.target.result; p.style.display='block';
-      const btn=document.getElementById('check-btn'); btn.disabled=false; btn.textContent='開始 AI 審核';
-      document.getElementById('result-area').innerHTML='';
-    };
-    reader.readAsDataURL(file);
-  }
-  async function analyze() {
-    if(!imageBase64) return;
-    const btn=document.getElementById('check-btn'); btn.disabled=true; btn.textContent='審核中...';
-    const ra=document.getElementById('result-area');
-    ra.innerHTML='<div class="loader-row"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span style="font-size:12px;color:#7A5A5A;margin-left:6px">AI 正在分析穿搭...</span></div>';
-    try {
-      const res=await fetch('https://weddingsecretary.19931215david.workers.dev',{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({image:imageBase64,gender:selectedGender})
-      });
-      const text=await res.text();
-      let r;
-      try { r=JSON.parse(text.replace(/```json|```/g,'').trim()); }
-      catch(e) { const m=text.match(/\{[\s\S]*\}/); r=m?JSON.parse(m[0]):{pass:false,verdict:'解析失敗',reason:'請重試',suggestion:null,detected:[]}; }
-      const pc=r.pass?'pass':'fail';
-      const tags=(r.detected||[]).map(t=>`<span class="result-tag">${t}</span>`).join('');
-      const sugg=r.suggestion?`<p class="result-suggestion">建議：${r.suggestion}</p>`:'';
-      ra.innerHTML=`<div class="result-box result-${pc}"><p class="result-verdict ${pc}">${r.pass?'✓ ':'✕ '}${r.verdict}</p><p class="result-reason">${r.reason}</p>${sugg}<div class="result-tags">${tags}</div></div>`;
-    } catch(err) {
-      ra.innerHTML='<div class="result-box"><p class="result-reason" style="color:#8B2020">審核失敗，請重試。</p></div>';
-    }
-    btn.disabled=false; btn.textContent='重新審核';
   }
 </script>
 </body>
